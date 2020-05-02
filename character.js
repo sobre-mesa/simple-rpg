@@ -1,4 +1,5 @@
 let StatSet = require('./stats');
+let rl = require('./readline');
 
 class Character {
   constructor(attributes) {
@@ -9,7 +10,7 @@ class Character {
     this.xp = 0;
     this.stats = new StatSet(attributes.job, attributes.race);
     this.health = 100;
-    this.attacks = this.job.attacks;
+    this.attacks = attributes.job.attacks;
   }
 
   defend(attack) {
@@ -46,17 +47,23 @@ class Character {
     this.stats.describe()
   }
 
-  attack(rlchar, enemy) {
+  attack(enemy) {
     let possibleAttacks = Object.keys(this.attacks);
-    let question = () => rlchar.question("Choose an attack:" + possibleAttacks, x => s2(x));
+    let question = () => rl.question("Choose an attack: " + possibleAttacks, x => getAttack(x));
     let getAttack = x => {
-      if (possibleAttacks.contains(x)) {
-        return x;
+      if (possibleAttacks.includes(x)) {
+        console.log(possibleAttacks);
+        finalStep(this.attacks[x]);
       }
-      question();
+      else{
+        question();
+      }
     }
-    attack = getAttack();
-    enemy.defend(attack);
+    let finalStep = attack => {
+      console.log(attack)
+      enemy.defend(attack);
+    }
+    question();
   }
 }
 

@@ -10,9 +10,9 @@ class Enemy {
 
   defend(attack) {
     let crit = diceSuccess(attack.critChance) > 50;
-    let damage = crit ? attack * (attack.critMultiplier || 2) : attack;
+    let damage = crit ? attack.dmg * (attack.critMultiplier || 2) : attack.dmg;
     this.health = this.health - damage;
-    console.log("The ", type, "receives ", damage, " damage.");
+    console.log("The ", this.type, "receives ", damage, " damage.");
     console.log(this.health, "HP Remaining")
   }
 

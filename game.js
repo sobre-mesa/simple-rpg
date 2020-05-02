@@ -1,17 +1,13 @@
-const readline = require("readline");
-
 let races = require('./races');
 let jobs = require('./jobs');
 let Character = require('./character');
 let Enemy = require('./enemy');
+let rl = require('./readline');
 const cryingOrc = new Enemy("orc");
 
 class Game {
   constructor() {
-    this.rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+    this.rl = rl;
     this.character = {};
     this.menuDefinition = {
       "exit": () => process.exit(),
@@ -19,7 +15,7 @@ class Game {
       "create": () => {
         this.createNewCharacter()
       },
-      "attack": () => this.character.attack(this.rl, cryingOrc),
+      "attack": () => this.character.attack(cryingOrc),
       "preset": () => {
         this.character = new Character({ name: "Morathis", race: races["human"], job: jobs["warrior"] });
         this.character.describe();
@@ -29,11 +25,10 @@ class Game {
   }
 
   mainMenu = () => {
-    this.rl.question("Enter a command (enter 'help' for command list) :  ", x => { console.log("callback", x); return this.menu(x) })
+    this.rl.question("Enter a command (enter 'help' for command list) :  ", x => this.menu(x))
   }
 
   menu(option) {
-    console.log("menu ", option)
     let menuOptions = Object.keys(this.menuDefinition);
     if (!menuOptions.includes(option)) {
       console.log("Not a valid command");
