@@ -1,6 +1,4 @@
 let StatSet = require('./stats');
-let races = require('./races');
-let jobs = require('./jobs');
 
 class Character {
   constructor(attributes) {
@@ -48,7 +46,7 @@ class Character {
     this.stats.describe()
   }
 
-  attack(rlchar, menu) {
+  attack(rlchar, enemy) {
     let possibleAttacks = Object.keys(this.attacks);
     let question = () => rlchar.question("Choose an attack:" + possibleAttacks, x => s2(x));
     let getAttack = x => {
@@ -62,35 +60,5 @@ class Character {
   }
 }
 
-let createNewCharacter = () => {
-  let name;
-  let race;
-  let job;
-  console.log(this)
-  this.rl.question("Enter name: ", x => s2(x))
-  const s2 = x => {
-    name = x
-    this.rl.question("Enter race: ", x => s3(x))
-  }
-  const s3 = x => {
-    if (Object.keys(races).includes(x)) {
-      race = races[x];
-      this.rl.question("Enter class: ", x => finalStep(x))
-    } else {
-      this.rl.question("Enter race again: ", x => s3(x))
-    }
-  }
-  const finalStep = x => {
-    if (Object.keys(jobs).includes(x)) {
-      job = jobs[x];
-      this.character = new Character({ name, race, job });
-      console.log("Character created!: ")
-      character.describe();
-      this.menu("main-menu");
-    } else {
-      this.rl.question("Enter job again: ", x => finalStep(x))
-    }
-  }
-}
 
-module.exports = { Character, createNewCharacter };
+module.exports = Character;
