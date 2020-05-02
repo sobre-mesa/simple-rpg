@@ -1,11 +1,6 @@
 let Character = require('./character');
 const readline = require("readline");
 
-const { DiceRoller } = require('rpg-dice-roller');
-
-// const roll = new rpgDiceRoller.DiceRoll('2d6');
-// console.log(roll);
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
