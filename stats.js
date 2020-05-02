@@ -32,19 +32,19 @@ class StatSet {
     this.describe();
   }
 
-  describe(){
-    let prn = ({str, agl, int, con}) => {
+  describe() {
+    let prn = ({ str, agl, int, con }) => {
       console.log("STR: ", str)
       console.log("AGL: ", agl)
       console.log("INT: ", int)
       console.log("CON: ", con)
     }
-   prn(this.statMap())
+    prn(this.statMap())
   }
 
-  statMap(){
+  statMap() {
     return {
-      str: this.str.val(), 
+      str: this.str.val(),
       agl: this.agl.val(),
       int: this.int.val(),
       con: this.con.val(),
@@ -67,7 +67,7 @@ class Stat {
     this.value = this.value + this.growth;
   }
 
-  val(){
+  val() {
     return this.value;
   }
 

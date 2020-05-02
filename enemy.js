@@ -1,15 +1,24 @@
-import { DiceRoller } from 'rpg-dice-roller';
+let diceSuccess = require('./dice');
 
 class Enemy {
-  constructor(name, type) {
-    this.name = name;
+  constructor(type) {
+    this.type = type;
     this.health = 100;
     this.attackLogic = enemyLogic[type];
     this.attacks = enemyAttacks[type];
   }
 
-  nextAttack(character) {
-    character.defend(this.attackLogic(character))
+  defend(attack) {
+    let crit = diceSuccess(attack.critChance) > 50;
+    let damage = crit ? attack * (attack.critMultiplier || 2) : attack;
+    this.health = this.health - damage;
+    console.log("The ", type, "receives ", damage, " damage.");
+    console.log(this.health, "HP Remaining")
+  }
+
+  attack(character) {
+    let attack = this.attackLogic(character);
+    character.defend(attack);
   }
 }
 
@@ -18,7 +27,7 @@ let enemyLogic = {
     if (character.health < 20) {
       return enemyAttacks["Execute"]
     }
-    else{
+    else {
       return enemyAttacks["Slash"]
     }
   }
@@ -26,7 +35,9 @@ let enemyLogic = {
 
 let enemyAttacks = {
   "orc": {
-    "Slash": { dmg: 10 },
-    "Execute": { dmg: 20 }
+    "Slash": { dmg: 10, critChance: "3d6" },
+    "Execute": { dmg: 5, critChance: "1d6", critMultiplier: 3 }
   }
 }
+
+module.exports = Enemy;

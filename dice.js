@@ -7,18 +7,14 @@ let calc = (times, sides, coll) => {
 
 let dice = (diceString) => {
   let [times, sides] = diceString.split("d");
-  let res = calc(times -1 , sides, []);
+  let res = calc(times - 1, sides, []);
   let added = res.reduce((x, y) => x + y, 0);
   return [added, times * sides];
 }
 
 let diceSuccess = (diceString) => {
   let result = dice(diceString);
-  return Math.floor(result[0] / result[1]);
+  return result[0] / result[1] * 100;
 }
 
-console.log(diceSuccess("3d5"));
-console.log(diceSuccess("2d6"));
-console.log(diceSuccess("1d20"));
-
-module.exports = dice;
+module.exports = diceSuccess;
